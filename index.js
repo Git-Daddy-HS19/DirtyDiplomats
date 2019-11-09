@@ -2,6 +2,11 @@ const express = require('express')
 const twilio = require('twilio')
 require('dotenv').config()
 
+const app = express()
+const port = 3000
+
+app.use(express.static('public'))
+
 const charSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 const genUniqueID = (length = 4) => {
     let id = ''
@@ -11,13 +16,13 @@ const genUniqueID = (length = 4) => {
     return id
 }
 
-const app = express()
-const port = 3000
-
-app.use(express.static('public'))
+const runningGames = {}
 
 app.post('/create-game', (req, res) => {
-    res.json({ id: genUniqueID() })
+    let newGameID
+    while (runningGames[(newGameID = genUniqueID())] === undefined) {}
+    runningGames[newGameID] = {}
+    res.json({ id: newGameID })
 })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

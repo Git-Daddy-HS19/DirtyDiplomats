@@ -12,9 +12,9 @@
 
 <body>
     <div class="bg-light container">
-        <form id="create-game-form" method="POST" action="/create-game">
+        <form id="create-game-form">
             Number of players
-            <select name="num-players">
+            <select name="numPlayers">
                 <option value="5">5</option>
                 <option value="6">6</option>
                 <option value="7">7</option>
@@ -32,11 +32,11 @@
                 <option value="19">19</option>
                 <option value="20">20</option>
             </select><br>
-            Turn jester on? <input type="checkbox" name="has-jester"><br>
-            Turn player questions on? <input type="checkbox" name="has-player-questions"><br>
-            Turn phone calls on? <input type="checkbox" name="has-phone-calls"><br>
+            Turn jester on? <input type="checkbox" name="hasJester"><br>
+            Turn player questions on? <input type="checkbox" name="hasPlayerQuestions"><br>
+            Turn phone calls on? <input type="checkbox" name="hasPhoneCalls"><br>
             Discussion time limit
-            <select name="discussion-time-limit">
+            <select name="discussionTimeLimit">
                 <option value="30">30</option>
                 <option value="60">60</option>
                 <option value="90">90</option>
@@ -47,7 +47,7 @@
                 <option value="240">240</option>
             </select> seconds<br>
             Elimination time limit
-            <select name="elimination-time-limit">
+            <select name="eliminationTimeLimit">
                 <option value="30">30</option>
                 <option value="60">60</option>
                 <option value="90">90</option>

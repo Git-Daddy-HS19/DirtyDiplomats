@@ -4,12 +4,12 @@ const gameIdSpan = $('#game-id-span')
 
 form.submit(function(e) {
     e.preventDefault()
+    var formData = new FormData(form[0])
     $.ajax({
-        url: form.attr('action'),
-        type: form.attr('method'),
+        url: '/create-game',
+        type: 'post',
         data: form.serialize(),
-        processData: false,
-        success: data => {
+        success: function(data) {
             form.hide()
             gameIdSpan.text(data.id)
             gameIdDiv.show()

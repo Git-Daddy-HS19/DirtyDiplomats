@@ -1,11 +1,13 @@
 // Includes
 const express = require('express')
-const twilio = require('./twilio')
+const twilio = require('twilio')
 const strings = require('./strings')
 const Game = require('./game.js')
 
 // Globals
 const runningGames = {}
+const bodyParser = require('body-parser')
+require('dotenv').config()
 
 const port = 3000
 const app = express()
@@ -16,6 +18,10 @@ twilio.startListener(app)
 
 // Read questions from file
 questions = strings.getQuestions()
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.static('public'))
 
 // Web GUI
 app.post('/create-game', (req, res) => {
@@ -48,10 +54,20 @@ const genUniqueID = (length = 4) => {
 const runningGames = {}
 
 app.post('/create-game', (req, res) => {
-    let newGameID
-    while (runningGames[(newGameID = genUniqueID())] === undefined) {}
-    runningGames[newGameID] = {}
-    res.json({ id: newGameID })
+    console.log(req.body)
+    console.log(req.params)
+    let gameId
+    while (runningGames[(gameId = genUniqueID())] !== undefined) {}
+    runningGames[gameId] = new Game(
+        gameId,
+        req.body.numPlayers,
+        req.body.hasjester === 'on',
+        req.body.hasPlayerQuestions === 'on',
+        req.body.hasPhoneCalls === 'on',
+        req.body.discussionTimeLimit,
+        req.body.eliminationTimeLimit
+    )
+    res.json({ id: gameId })
 })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

@@ -16,12 +16,14 @@ const genUniqueID = (length = 4) => {
     return id
 }
 
+const Game = require('./Game.js')
 const runningGames = {}
 
 app.post('/create-game', (req, res) => {
+    console.log(req)
     let newGameID
-    while (runningGames[(newGameID = genUniqueID())] === undefined) {}
-    runningGames[newGameID] = {}
+    while (runningGames[(newGameID = genUniqueID())] !== undefined) {}
+    runningGames[newGameID] = new Game()
     res.json({ id: newGameID })
 })
 

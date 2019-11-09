@@ -4,7 +4,8 @@
   "description": "Werewolf/town of salem type party game using twilio and text messages",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",

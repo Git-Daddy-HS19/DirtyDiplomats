@@ -12,7 +12,6 @@ questions = strings.getQuestions()
 // Webserver stuff?
 const app = express()
 const port = 3000
-
 app.use(express.static('public'))
 
 const charSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
@@ -36,3 +35,7 @@ app.post('/create-game', (req, res) => {
 })
 
 app.listen(port, () => console.log(`STATUS: Example app listening on port ${port}!`))
+
+// Define game class
+
+// class Game()

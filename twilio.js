@@ -8,7 +8,7 @@ module.exports = {
     config: function() {
         client = new twilio(process.env.accountSid, process.env.authToken);
 
-        console.log("STATUS: Setup complete.");
+        console.log("STATUS: Twilio setup complete.");
     },
 
     sendMessage: function(text, toNumber) {

@@ -2,6 +2,8 @@ require('dotenv').config()
 const twilio = require('twilio')
 var client;
 
+var questions = [];
+
 module.exports = {
     config: function() {
         client = new twilio(process.env.accountSid, process.env.authToken);

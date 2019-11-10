@@ -2,12 +2,30 @@
 const express = require('express')
 const twilio = require('./twilio')
 const strings = require('./strings')
+const Game = require('./Game.js')
+
+// Globals
+const runningGames = {}
+
+// Set up express on port 3000
+const port = 3000
+const app = express()
 
 // Configure Twilio (and soon also express)
 twilio.config()
+twilio.startListener(app)
 
 // Read questions from file
 questions = strings.getQuestions()
+
+// Web GUI
+app.post('/create-game', (req, res) => {
+    console.log(req)
+    let newGameID
+    while (runningGames[(newGameID = genUniqueID())] !== undefined) {}
+    runningGames[newGameID] = new Game()
+    res.json({ id: newGameID })
+})
 
 // Generates game ID
 const charSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
@@ -19,7 +37,5 @@ const genUniqueID = (length = 4) => {
     return id
 }
 
-const Game = require('./Game.js')
-const runningGames = {}
-
-
+app.use(express.static('public'))
+app.listen(port, () => console.log(`STATUS: Web server active on port ${port}!`))

@@ -1,11 +1,12 @@
 // Includes
 const express = require('express')
-const twilio = require('twilio')
+const twilio = require('./twilio')
 const strings = require('./strings')
 const Game = require('./game.js')
 
 // Globals
 const runningGames = {}
+const phoneMap = {}
 const bodyParser = require('body-parser')
 require('dotenv').config()
 
@@ -41,19 +42,6 @@ const genUniqueID = (length = 4) => {
     }
     return id
 }
-
-const charSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-const genUniqueID = (length = 4) => {
-    let id = ''
-    for (let i = 0; i < length; i++) {
-        id += charSet[Math.floor(Math.random() * charSet.length)]
-    }
-    return id
-}
-
-const Game = require('./Game')
-const runningGames = {}
-const phoneMap = {}
 
 app.post('/create-game', (req, res) => {
     console.log(req.body)

@@ -32,7 +32,7 @@ app.post('/create-game', (req, res) => {
     runningGames[gameId] = new Game(
         gameId,
         +req.body.numPlayers,
-        req.body.hasjester === 'on',
+        req.body.hasJester === 'on',
         req.body.hasPlayerQuestions === 'on',
         req.body.hasPhoneCalls === 'on',
         +req.body.discussionTimeLimit,

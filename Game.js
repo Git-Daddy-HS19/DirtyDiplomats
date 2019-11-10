@@ -111,7 +111,7 @@ class Game {
     }
 
     preDiscussion() {
-        const question = question.shift()
+        const question = this.questions.shift()
         for (let id in this.players) {
             const player = this.players[id]
             if (player.role === 'spy') {

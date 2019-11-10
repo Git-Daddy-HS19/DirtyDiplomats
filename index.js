@@ -51,7 +51,9 @@ const genUniqueID = (length = 4) => {
     return id
 }
 
+const Game = require('./Game')
 const runningGames = {}
+const phoneMap = {}
 
 app.post('/create-game', (req, res) => {
     console.log(req.body)
@@ -60,14 +62,26 @@ app.post('/create-game', (req, res) => {
     while (runningGames[(gameId = genUniqueID())] !== undefined) {}
     runningGames[gameId] = new Game(
         gameId,
-        req.body.numPlayers,
+        +req.body.numPlayers,
         req.body.hasjester === 'on',
         req.body.hasPlayerQuestions === 'on',
         req.body.hasPhoneCalls === 'on',
-        req.body.discussionTimeLimit,
-        req.body.eliminationTimeLimit
+        +req.body.discussionTimeLimit,
+        +req.body.eliminationTimeLimit
     )
     res.json({ id: gameId })
 })
+
+setTimeout(() => {
+    for (let id in runningGames) {
+        if (runningGames[id].gameOver) {
+            for (let player in runningGames[id].players) {
+                let number = runningGames[id].players[player].number
+                delete phoneMap[number]
+            }
+            delete runningGames[id]
+        }
+    }
+}, 30000)
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

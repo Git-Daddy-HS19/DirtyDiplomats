@@ -3,6 +3,8 @@ const fs = require('fs')
 module.exports = {
     getQuestions: function() {
         fullString = fs.readFileSync('questions.txt', 'utf8')
-        return fullString.split("\r\n")
+        stringArray = fullString.split("\r\n")
+        console.log("STATUS: " + stringArray.length + " questions loaded.")
+        return stringArray
     }
 };

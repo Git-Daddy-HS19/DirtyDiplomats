@@ -1,6 +1,6 @@
-“Act like the others. Stay alive”
-“Halt all carousing! An unwanted guest has been spotted within the party and must be dealt with immediately by a tribunal”
-“Be on the alert, the diplomats have been alerted to your position. You must make all attempts to convince that one of the diplomats is the spy instead. Good luck”
-“The tribunal shall begin! Discuss amongst yourselves on who is the spy and vote for them on your devices by typing in their name.”
-“Tribunal has ended, the votes shall be counted and we shall announce who shall be ‘terminated’. ”
-“The member of the party has been voted to be terminated from the party for their corrupt ways. Please continue with the party and enjoy yourselves.”
+Act like the others. Stay alive!
+Halt all carousing! An unwanted guest has been spotted within the party and must be dealt with immediately by your tribunal.”
+Be on the alert, the diplomats have been alerted to your position. You must make every attempt to convince them that one of the other diplomats is the spy instead. Good luck!”
+The tribunal begins! Discuss amongst yourselves who the spy is and vote for them on your devices by typing in their name.”
+The tribunal has ended. Votes will be counted and we will shortly announce whose employ will be ‘terminated’.
+A member of the party has been had their party membership terminated for their corrupt ways. Please continue with the party and enjoy yourselves.”

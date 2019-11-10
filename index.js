@@ -2,7 +2,7 @@
 const express = require('express')
 const twilio = require('./twilio')
 const strings = require('./strings')
-const Game = require('./game.js')
+const Game = require('./game')
 
 // Globals
 const runningGames = {}
@@ -26,24 +26,6 @@ app.use(express.static('public'))
 
 // Web GUI
 app.post('/create-game', (req, res) => {
-    console.log(req)
-    let newGameID
-    while (runningGames[(newGameID = genUniqueID())] !== undefined) {}
-    runningGames[newGameID] = new Game()
-    res.json({ id: newGameID })
-})
-
-// Generates game ID
-const charSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-const genUniqueID = (length = 4) => {
-    let id = ''
-    for (let i = 0; i < length; i++) {
-        id += charSet[Math.floor(Math.random() * charSet.length)]
-    }
-    return id
-}
-
-app.post('/create-game', (req, res) => {
     console.log(req.body)
     console.log(req.params)
     let gameId
@@ -59,6 +41,16 @@ app.post('/create-game', (req, res) => {
     )
     res.json({ id: gameId })
 })
+
+// Generates game ID
+const charSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+const genUniqueID = (length = 4) => {
+    let id = ''
+    for (let i = 0; i < length; i++) {
+        id += charSet[Math.floor(Math.random() * charSet.length)]
+    }
+    return id
+}
 
 setTimeout(() => {
     for (let id in runningGames) {

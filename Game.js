@@ -1,7 +1,5 @@
 const Player = require('./Player')
 
-const questions = require('./strings')
-
 randomShuffle = arr => {
     const newArr = [...arr]
     for (let i = newArr.length - 1; i >= 0; i--) {
@@ -39,7 +37,7 @@ class Game {
         this.players = {}
         this.playersLeft = this.numPlayers
         this.gameOver = false
-        this.questions = randomShuffle(questions)
+        this.questions = randomShuffle(strings)
         this.votes = {}
         this.playersVoted = []
         this.state = 'discussion'

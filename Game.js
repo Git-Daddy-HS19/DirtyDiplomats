@@ -66,9 +66,12 @@ class Game {
                     }
 
                     const spyId = Math.floor(Math.random() * this.numPlayers)
+                    const spyKey = Object.keys(this.players)[spyId]
+                    console.log(spyId, spyKey)
+
                     for (let id in this.players) {
                         const player = this.players[id]
-                        if (id !== spyId) {
+                        if (id !== spyKey) {
                             player.assignRole('diplomat')
                             player.send(textResponses.roleannouncement[0])
                         } else {

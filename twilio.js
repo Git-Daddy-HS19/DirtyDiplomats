@@ -37,5 +37,13 @@ module.exports = {
             to: toNumber
         })
         .then((message) => console.log(message.sid));
+    },
+
+    makeCall: function(toNumber) {
+        client.calls.create({
+            url: 'https://demo.twilio.com/docs/voice.xml',
+            to: toNumber,
+            from: process.env.fromNumber
+        })
     }
 };

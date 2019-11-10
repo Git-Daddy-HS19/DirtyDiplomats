@@ -23,7 +23,7 @@
       background-color: black;
       border: none;
       color: white;
-      padding: 16px 32px;
+      padding: 32px 32px;
       text-align: center;
       font-size: 16px;
       margin: 10px 1px;
@@ -39,8 +39,21 @@
     p1 {
         font-family: 'Arial';
         font-size: 15px;
+        text-align: center;
         color:white;
         opacity: 0.7;
+    }
+
+    label {
+        text-align: right;
+    }
+
+    .labelsMain {
+        color: #e4e6eb;
+    }
+
+    .form-check-input{
+
     }
     </style>
 
@@ -48,40 +61,96 @@
     <title>Dodgy Diplomats</title>
     </head>
     <body>
-        <div class="row-sm" style=height:150px></div>
+        <div class="row-sm" style=height:200px></div>
 
-        <div class="container" style=width:1000px; margin:30 auto;>
+        <div class="container" style=width:100%; margin:30 auto;>
             <div class="row">
 
                 <div class="col-sm">
-                    <div class="container-fluid">
-                        <img src="graphics/spy.png" class="img-fluid" alt="spy">
+                    <div class="container-fluid" align="bottom" height=auto>
+                        <img src="graphics/spy.png" class="img-fluid" align="bottom" alt="spy">
                     </div>
                 </div>
 
                 <div class="col-sm text-center">
                     <p class="text-center">Dodgy Diplomats</p>
-                    <form>
-                        <div class="game-setup-form">
+                    <form id="create-game-form" method="POST" action="/create-game">
+                        <div class="game-setup-form" style=width:500px;>
                             <label for="Select player numbers">Number of Players</label>
-                            <select class="form-control" id="exampleFormControlSelect1">
-                                <option>5</option>
-                                <option>6</option>
-                                <option>7</option>
-                                <option>8</option>
-                                <option>9</option>
-                                <option>10</option>
-                                <option>11</option>
-                                <option>12</option>
-                                <option>13</option>
-                                <option>14</option>
-                                <option>15</option>
-                                <option>16</option>
-                                <option>17</option>
-                                <option>18</option>
-                                <option>19</option>
-                                <option>20</option>
+                            <select class="form-control" id="FormControlSelectPayerNum">
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
                             </select>
+                            <br>
+                            <label id="labelsMain" for="Disussion Time Limit">Discussion Time</label>
+                            <select class="form-control" name="discussion-time-limit" id="FormControlSelectDiscussionTime">
+                                <option value="30">30 sec</option>
+                                <option value="60">60 sec</option>
+                                <option value="90">90 sec</option>
+                                <option value="120" selected="120">120 sec</option>
+                                <option value="150">150 sec</option>
+                                <option value="180">180 sec</option>
+                                <option value="210">210 sec</option>
+                                <option value="240">240 sec</option>
+                            </select>
+                            <br>
+                            <label for="Elimination Time Limit">Elimination time limit</label>
+                            <select class="form-control" name="elimination-time-limit" id="FormControlSelectDiscussionTime">
+                                <option value="30">30 sec</option>
+                                <option value="60">60 sec</option>
+                                <option value="90">90 sec</option>
+                                <option value="120">120 sec</option>
+                                <option value="150">150 sec</option>
+                                <option value="180">180 sec</option>
+                                <option value="210">210 sec</option>
+                                <option value="240">240 sec</option>
+                            </select><br>
+
+
+
+
+                              <div class="form-check">
+                                <div class="row">
+                                  <div class="col-sm">
+                                      <input class="form-check-input" type="checkbox" name="has-jester">
+                                      <label class="form-label" for="gameOps">
+                                        Jester 🤡
+                                      </label>
+                                  </div>
+                                  <div class="col-sm">
+                                      <input class="form-check-input" type="checkbox" name="has-player-questions">
+                                      <label class="form-label" for="gameOps">
+                                        Custom Player Questions 󠀿󠀿✍️
+                                      </label>
+                                  </div>
+                                  <div class="col-sm">
+                                      <input class="form-check-input" type="checkbox" name="has-phone-calls">
+                                      <label class="form-label" for="gameOps">
+                                        Calls On 📱
+                                      </label>
+                                  </div>
+                                </div>
+                              </div>
+
+
+
+                              <br>
+                            <input type="submit" class="btn btn-primary mb-2" value="Create Game">
+
                         </div>
                     </form>
                 </div>
@@ -96,7 +165,8 @@
 
             <div class="row">
                 <div class="col-sm text center" style="background:black">
-                    <p1 class="text-center">Game made by Team Git-Daddy</p1>
+                    <p1 class="text-center"><b>Dodgy Diplomats</b> made by <b>Team Git-Daddy</b> (Josh 🔥 Tom 🔥 Niall 🌬️ Milo 🌊)
+                    as part of Hack Sussex 2019 in 24 hours</p1>
             </div>
 
         </div>

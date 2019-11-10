@@ -7,7 +7,6 @@ const Game = require('./Game.js')
 // Globals
 const runningGames = {}
 
-// Set up express on port 3000
 const port = 3000
 const app = express()
 

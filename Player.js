@@ -1,11 +1,16 @@
 class Player {
-    constructor(number) {
+    constructor(number, sendMessage) {
         this.number = number
+        this.sendMessage = sendMessage
         this.eliminated = false
     }
 
     assignRole(role) {
         this.role = role
+    }
+
+    send(msg) {
+        this.sendMessage(msg, this.number)
     }
 }
 

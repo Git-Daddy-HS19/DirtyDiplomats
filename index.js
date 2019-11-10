@@ -1,14 +1,14 @@
-// Includes
-const express = require('express')
-const twilio = require('./twilio')
-const strings = require('./strings')
-const Game = require('./game')
-
 // Globals
 const runningGames = {}
 const phoneMap = {}
 const bodyParser = require('body-parser')
 require('dotenv').config()
+
+// Includes
+const express = require('express')
+const twilio = require('./twilio')(runningGames, phoneMap)
+const textResponses = require('./strings')
+const Game = require('./Game')
 
 const port = 3000
 const app = express()
@@ -18,7 +18,6 @@ twilio.config()
 twilio.startListener(app)
 
 // Read questions from file
-questions = strings.getQuestions()
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -39,11 +38,12 @@ app.post('/create-game', (req, res) => {
         +req.body.discussionTimeLimit,
         +req.body.eliminationTimeLimit
     )
+
     res.json({ id: gameId })
 })
 
 // Generates game ID
-const charSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+const charSet = 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789'
 const genUniqueID = (length = 4) => {
     let id = ''
     for (let i = 0; i < length; i++) {

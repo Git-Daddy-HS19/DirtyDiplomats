@@ -1,10 +1,12 @@
 const fs = require('fs')
 
-module.exports = {
-    getQuestions: function() {
-        fullString = fs.readFileSync('strings/questions.txt', 'utf8')
-        stringArray = fullString.split('\r\n')
-        console.log('STATUS: ' + stringArray.length + ' questions loaded.')
-        return stringArray
-    }
+const files = ['endofgame', 'phasechange', 'questions', 'roleannouncement']
+
+const textResponses = {}
+for (let file of files) {
+    const fullString = fs.readFileSync(`strings/${file}.txt`, 'utf8')
+    textResponses[file] = fullString.split('\n')
+    console.log(`STATUS: ${file} loaded.`)
 }
+
+module.exports = textResponses

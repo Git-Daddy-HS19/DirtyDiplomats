@@ -1,4 +1,7 @@
 const Player = require('./Player')
+const textResponses = require('./strings')
+
+// console.log(textResponses)
 
 randomShuffle = arr => {
     const newArr = [...arr]
@@ -26,7 +29,7 @@ getHighestVote = votes => {
 
 class Game {
     constructor(gameId, numPlayers, hasJester, hasPlayerQuestions, hasPhoneCalls, discussionTimeLimit, eliminationTimeLimit) {
-        this.gameID = gameId
+        this.gameId = gameId
         this.numPlayers = numPlayers
         this.hasJester = hasJester
         this.hasPlayerQuestions = hasPlayerQuestions
@@ -37,30 +40,44 @@ class Game {
         this.players = {}
         this.playersLeft = this.numPlayers
         this.gameOver = false
-        this.questions = randomShuffle(strings)
+        this.questions = randomShuffle(textResponses.questions)
         this.votes = {}
         this.playersVoted = []
         this.state = 'discussion'
     }
 
-    receiveMessage(number, message) {
-        if (this.players.length < this.numPlayers) {
+    receiveMessage(number, message, phoneMap, sendMessage) {
+        if (Object.keys(this.players).length < this.numPlayers) {
             const [gameId, nickname] = message.split(' ')
             if (gameId === this.gameId) {
                 if (nickname in this.players) {
-                    // player already exists
-                    // Send a message saying so
+                    sendMessage('Nickname already exists', number)
                     return
                 }
                 this.votes[nickname] = 0
-                this.players[nickname] = new Player(number)
-                // Send welcome message
-                if (this.players.length === this.numPlayers) {
-                    const spyId = Math.floor(Math.random() * this.players.length)
-                    this.players.forEach((player, id) => {
-                        player.assignRole(id === spyId ? 'spy' : 'diplomat')
-                        // Send text to players confirming their roles
-                    })
+                this.players[nickname] = new Player(number, sendMessage)
+                phoneMap[number] = this.gameId
+
+                this.players[nickname].send('Welcome to a game of Dodgy Diplomats')
+
+                if (Object.keys(this.players).length === this.numPlayers) {
+                    for (let id in this.players) {
+                        this.players[id].send(`Game starting! the players who have joined are:\n${Object.keys(this.players).join('\n')}`)
+                    }
+
+                    const spyId = Math.floor(Math.random() * this.numPlayers)
+                    for (let id in this.players) {
+                        const player = this.players[id]
+                        if (id !== spyId) {
+                            player.assignRole('diplomat')
+                            player.send(textResponses.roleannouncement[0])
+                        } else {
+                            player.assignRole('spy')
+                            player.send(textResponses.roleannouncement[1])
+                        }
+
+                        player.send(`Your role is the ${player.role}`)
+                    }
                     this.preDiscussion()
                 }
             }
@@ -78,7 +95,7 @@ class Game {
                     this.elimination()
                 }
             } else {
-                // Player doesn't exist
+                sendMessage('Player does not exist', number)
             }
         } else if (this.state === 'final') {
             if (message in this.players && this.players[message].eliminated) {
@@ -88,13 +105,21 @@ class Game {
                     this.finalElimination()
                 }
             } else {
-                // Player doesn't exist
+                sendMessage('Player does not exist', number)
             }
         }
     }
 
-    preDicussion() {
-        // Send question to everyone but the spy, however the spy gets told that the round has started
+    preDiscussion() {
+        const question = question.shift()
+        for (let id in this.players) {
+            const player = this.players[id]
+            if (player.role === 'spy') {
+                player.send('New round has started spy!')
+            } else {
+                player.send(question)
+            }
+        }
         setTimeout(this.discussion, this.discussionTimeLimit)
     }
 
@@ -104,7 +129,9 @@ class Game {
     }
 
     preElimination() {
-        // Send message saying cast your votes
+        for (let id in this.players) {
+            this.players[id].send('Cast your vote now!')
+        }
         setTimeout(this.elimination, this.eliminationTimeLimit)
     }
 
@@ -118,16 +145,26 @@ class Game {
         this.playersVoted = []
 
         if (this.players[eliminatedPlayer].role === 'spy') {
-            // Diplomats win, send message notifying everyone
+            for (let id in this.players) {
+                const player = this.players[id]
+                if (player.role !== 'spy') {
+                    player.send(textResponses.endofgame[Math.floor(Math.random() * textResponses.endofgame.length)])
+                } else {
+                    player.send('Unlucky spy')
+                }
+            }
             this.gameOver = true
             return
         }
+
         this.players[eliminatedPlayer].eliminated = true
         this.playersLeft--
 
         if (this.playersLeft <= 2) {
             this.state = 'final'
-            // Send the dead the final round vote and the 2 remaining players a msg notifying them
+            for (let id in this.players) {
+                this.players[id].send('There is a final pair left! Eliminated will vote this time')
+            }
             setTimeout(this.finalElimination, this.eliminationTimeLimit)
         } else {
             this.state = 'discussion'
@@ -139,10 +176,13 @@ class Game {
         if (this.state !== 'final') return
         const eliminatedPlayer = getHighestVote(this.votes)
 
-        if (this.players[eliminatedPlayer].role === 'spy') {
-            // diplomats win
-        } else {
-            // spy wins
+        for (let id in this.players) {
+            const player = this.players[id]
+            if (this.players[eliminatedPlayer].role === 'spy') {
+                player.send('Diplomats win!')
+            } else {
+                player.send('Spy wins!')
+            }
         }
 
         this.gameOver = true

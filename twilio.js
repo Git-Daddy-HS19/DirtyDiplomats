@@ -18,7 +18,8 @@ module.exports = {
         // SMS listener
         expressObject.post('/sms', (req, res) => {
 
-            console.log("Message: " + req.body.Body + " " + req.body.From)
+            console.log("Message: " + req.body.Body)
+            console.log("Number: " + req.body.From)
             const twiml = new MessagingResponse()
 
             twiml.message("asdf")
@@ -26,7 +27,7 @@ module.exports = {
             res.end(twiml.toString());
         })
 
-        console.log("Status: SMS listener enabled.")
+        console.log("STATUS: SMS listener enabled.")
     },
 
     sendMessage: function(text, toNumber) {

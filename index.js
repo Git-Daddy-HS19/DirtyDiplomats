@@ -1,8 +1,8 @@
-// Includes here
+// Includes
 const express = require('express')
 const twilio = require('./twilio')
 const strings = require('./strings')
-const Game = require('./Game.js')
+const Game = require('./game.js')
 
 // Globals
 const runningGames = {}
